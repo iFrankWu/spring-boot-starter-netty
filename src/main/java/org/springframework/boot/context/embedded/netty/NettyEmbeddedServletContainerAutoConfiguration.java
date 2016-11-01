@@ -17,18 +17,17 @@
 
 package org.springframework.boot.context.embedded.netty;
 
-import io.netty.bootstrap.Bootstrap;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.condition.SearchStrategy;
-import org.springframework.boot.autoconfigure.web.EmbeddedServletContainerAutoConfiguration.EmbeddedServletContainerCustomizerBeanPostProcessorRegistrar;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+
+import io.netty.bootstrap.Bootstrap;
 
 /**
  * {@link org.springframework.boot.autoconfigure.EnableAutoConfiguration Auto-configuration} for an embedded servlet containers.
@@ -38,7 +37,6 @@ import org.springframework.core.annotation.Order;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @Configuration
 @ConditionalOnWebApplication
-@Import(EmbeddedServletContainerCustomizerBeanPostProcessorRegistrar.class)
 public class NettyEmbeddedServletContainerAutoConfiguration {
     @Configuration
     @ConditionalOnClass({Bootstrap.class})

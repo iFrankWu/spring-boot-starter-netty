@@ -17,23 +17,20 @@
 
 package org.springframework.boot.context.embedded.netty;
 
-import com.google.common.base.StandardSystemProperty;
-import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
-import io.netty.channel.epoll.EpollChannelOption;
-import io.netty.channel.epoll.EpollEventLoopGroup;
-import io.netty.channel.epoll.EpollServerSocketChannel;
-import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.util.concurrent.DefaultEventExecutorGroup;
+import java.net.InetSocketAddress;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.boot.context.embedded.EmbeddedServletContainer;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerException;
 
-import java.net.InetSocketAddress;
+import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelOption;
+import io.netty.channel.EventLoopGroup;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.util.concurrent.DefaultEventExecutorGroup;
 
 /**
  * An {@link EmbeddedServletContainer} used to control an embedded Netty instance, that bridges to
@@ -82,7 +79,8 @@ public class NettyEmbeddedServletContainer implements EmbeddedServletContainer {
     }
 
     private void groups(ServerBootstrap b) {
-        if (StandardSystemProperty.OS_NAME.value().equals("Linux")) {
+    	//comment the epoll codes, the epoll evn is hard to build
+      /*  if (StandardSystemProperty.OS_NAME.value().equals("Linux")) {
             bossGroup = new EpollEventLoopGroup(1);
             workerGroup = new EpollEventLoopGroup();
             b.channel(EpollServerSocketChannel.class)
@@ -93,7 +91,11 @@ public class NettyEmbeddedServletContainer implements EmbeddedServletContainer {
             workerGroup = new NioEventLoopGroup();
             b.channel(NioServerSocketChannel.class)
                     .group(bossGroup, workerGroup);
-        }
+        }*/
+        bossGroup = new NioEventLoopGroup(1);
+        workerGroup = new NioEventLoopGroup();
+        b.channel(NioServerSocketChannel.class)
+                .group(bossGroup, workerGroup);
         b.option(ChannelOption.TCP_NODELAY, true)
                 .option(ChannelOption.SO_REUSEADDR, true)
                 .option(ChannelOption.SO_BACKLOG, 100);

@@ -17,20 +17,22 @@
 
 package org.springframework.boot.context.embedded.netty;
 
-import io.netty.bootstrap.Bootstrap;
-import org.springframework.boot.context.embedded.AbstractEmbeddedServletContainerFactory;
-import org.springframework.boot.context.embedded.EmbeddedServletContainer;
-import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
-import org.springframework.boot.context.embedded.ServletContextInitializer;
-import org.springframework.context.ResourceLoaderAware;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.util.ClassUtils;
-
-import javax.servlet.ServletException;
 import java.net.InetSocketAddress;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Random;
+
+import javax.servlet.ServletException;
+
+import org.springframework.boot.context.embedded.AbstractEmbeddedServletContainerFactory;
+import org.springframework.boot.context.embedded.EmbeddedServletContainer;
+import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
+import org.springframework.boot.web.servlet.ServletContextInitializer;
+import org.springframework.context.ResourceLoaderAware;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.util.ClassUtils;
+
+import io.netty.bootstrap.Bootstrap;
 
 /**
  * An {@link EmbeddedServletContainerFactory} that can be used to create {@link NettyEmbeddedServletContainer}s.
@@ -52,9 +54,9 @@ public class NettyEmbeddedServletContainerFactory extends AbstractEmbeddedServle
         if (isRegisterDefaultServlet()) {
             logger.warn("This container does not support a default servlet");
         }
-        if (isRegisterJspServlet()) {
+     /*   if (isRegisterJspServlet()) {
             logger.warn("This container does not support a JSP servlet");
-        }
+        }*/
         for (ServletContextInitializer initializer : initializers) {
             try {
                 initializer.onStartup(context);
